@@ -29,7 +29,16 @@ pub extern "C" fn _start() -> ! {
     #[cfg(test)]
     test_main();
 
-    loop {}
+    // loop {}
+
+    // loop {
+    //     use rust_milk_tea_os::print;
+    //     print!("-");        // new
+    //     for _ in 0..10000 {}
+    // }
+
+    println!("It did not crash!");
+    rust_milk_tea_os::hlt_loop(); 
 }
 
 /// This function is called on panic.
@@ -37,7 +46,8 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    // loop {}
+    rust_milk_tea_os::hlt_loop(); 
 }
 
 #[cfg(test)]
