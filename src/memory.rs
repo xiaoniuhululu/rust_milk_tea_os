@@ -3,7 +3,8 @@ use x86_64::{
     VirtAddr,
     PhysAddr,
     structures::paging::OffsetPageTable,
-    structures::paging::{Page, PhysFrame, Mapper, Size4KiB, FrameAllocator}
+    // structures::paging::{Page, PhysFrame, Mapper, Size4KiB, FrameAllocator}
+    structures::paging::{PhysFrame, Size4KiB, FrameAllocator}
 };
 use bootloader::bootinfo::MemoryMap;
 use bootloader::bootinfo::MemoryRegionType;
@@ -87,22 +88,22 @@ pub unsafe fn init(physical_memory_offset: VirtAddr) -> OffsetPageTable<'static>
 }
 
 /// 为给定的页面创建一个实例映射到框架`0xb8000`。
-pub fn create_example_mapping(
-    page: Page,
-    mapper: &mut OffsetPageTable,
-    frame_allocator: &mut impl FrameAllocator<Size4KiB>,
-) {
-    use x86_64::structures::paging::PageTableFlags as Flags;
+// pub fn create_example_mapping(
+//     page: Page,
+//     mapper: &mut OffsetPageTable,
+//     frame_allocator: &mut impl FrameAllocator<Size4KiB>,
+// ) {
+//     use x86_64::structures::paging::PageTableFlags as Flags;
 
-    let frame = PhysFrame::containing_address(PhysAddr::new(0xb8000));
-    let flags = Flags::PRESENT | Flags::WRITABLE;
+//     let frame = PhysFrame::containing_address(PhysAddr::new(0xb8000));
+//     let flags = Flags::PRESENT | Flags::WRITABLE;
 
-    let map_to_result = unsafe {
-        // FIXME: 这并不安全，我们这样做只是为了测试。
-        mapper.map_to(page, frame, flags, frame_allocator)
-    };
-    map_to_result.expect("map_to failed").flush();
-}
+//     let map_to_result = unsafe {
+//         // FIXME: 这并不安全，我们这样做只是为了测试。
+//         mapper.map_to(page, frame, flags, frame_allocator)
+//     };
+//     map_to_result.expect("map_to failed").flush();
+// }
 
 /// 一个总是返回`None'的FrameAllocator。
 pub struct EmptyFrameAllocator;
