@@ -11,9 +11,10 @@ use bootloader::{BootInfo, entry_point};
 extern crate alloc;
 // use alloc::boxed::Box;
 // use alloc::{boxed::Box, vec, vec::Vec, rc::Rc};
-use rust_milk_tea_os::task::{Task, simple_executor::SimpleExecutor};
+// use rust_milk_tea_os::task::{Task, simple_executor::SimpleExecutor};
+use rust_milk_tea_os::task::{Task};
 use rust_milk_tea_os::task::keyboard;
-// use rust_milk_tea_os::task::executor::Executor;
+use rust_milk_tea_os::task::executor::Executor; 
 
 entry_point!(kernel_main);
 
@@ -115,8 +116,8 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     // core::mem::drop(reference_counted);
     // println!("reference count is {} now", Rc::strong_count(&cloned_reference));
 
-    let mut executor = SimpleExecutor::new();
-    // let mut executor = Executor::new(); 
+    // let mut executor = SimpleExecutor::new();
+    let mut executor = Executor::new(); 
     executor.spawn(Task::new(example_task()));
     executor.spawn(Task::new(keyboard::print_keypresses())); // new
     executor.run();
@@ -124,8 +125,8 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     #[cfg(test)]
     test_main();
 
-    println!("It did not crash!");
-    rust_milk_tea_os::hlt_loop(); 
+    // println!("It did not crash!");
+    // rust_milk_tea_os::hlt_loop(); 
 }
 
 // #[no_mangle]
